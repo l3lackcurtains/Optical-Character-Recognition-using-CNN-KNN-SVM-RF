@@ -1,0 +1,17 @@
+The chars74k-lite dataset is a modified version of the Chars74K dataset:
+http://www.ee.surrey.ac.uk/CVSSP/demos/chars74k/
+
+The light version includes majuscule and minuscule letters from the
+English alphabet, i.e. A-Za-z. All images have been transformed to
+8-bit grayscale images of size 20x20px.
+
+From the webpage:
+The following paper gives further descriptions of this dataset and
+baseline evaluations using a bag-of-visual-words approach with several
+feature extraction methods and their combination using multiple kernel
+learning:
+
+T. E. de Campos, B. R. Babu and M. Varma. Character recognition in
+natural images. In Proceedings of the International Conference on
+Computer Vision Theory and Applications (VISAPP), Lisbon, Portugal,
+February 2009.
