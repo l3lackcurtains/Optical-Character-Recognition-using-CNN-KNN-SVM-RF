@@ -84,7 +84,7 @@ samples1 = detector.sliding_window(detection1)
 samples_tf1 = samples1.reshape(samples1.shape[0], 20, 20, 1)
 samples_tf1 = samples_tf1.astype('float32')
 
-print('Start detection on example image: ', detection1)
+print('Start detection example image: ', detection1)
 predictions1 = model.predict(samples_tf1)
 value_list1 = []
 
@@ -96,4 +96,3 @@ for pred in predictions1:
         i += 1
 
 print('Predicted values on', detection1, Counter(value_list1))
-
