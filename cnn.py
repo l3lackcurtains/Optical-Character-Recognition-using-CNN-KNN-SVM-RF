@@ -6,13 +6,13 @@ from keras.layers import Conv2D, MaxPooling2D
 from keras.layers import Dense, Dropout, Flatten
 from keras.models import Sequential
 from sklearn.model_selection import train_test_split
-
+import cv2
 import helpers
 import image_detection as detector
 
 batch_size = 64
 num_classes = 26
-epochs = 20
+epochs = 2
 img_rows, img_cols = 20, 20
 
 print('Start loading data.')
@@ -41,8 +41,17 @@ y_test = keras.utils.to_categorical(y_test, num_classes)
 
 train_generator, validation_generator = helpers.create_datagenerator(x_train, x_test, y_train, y_test)
 
+
+print('\n***** Recording time *****')
+e1 = cv2.getTickCount()
+
 # Convolutional network with Keras.
 print('Start training the model.')
+
+'''
+The Sequential model is a linear stack of layers.
+The first layer in a Sequential model needs to receive information about its input shape.
+'''
 model = Sequential()
 
 model.add(Conv2D(32, kernel_size=(3, 3), activation='relu', input_shape=input_shape))
@@ -60,6 +69,11 @@ model.add(Dropout(0.5))
 
 model.add(Dense(num_classes, activation='softmax'))
 
+'''
+Before training a model, you need to configure the learning process, which is done via the compile method.
+Optimization is the process of finding the set of parameters WW that minimize the loss function.
+the loss function lets us quantify the quality of any particular set of weights W
+'''
 model.compile(loss=keras.losses.categorical_crossentropy,
               optimizer=keras.optimizers.Adadelta(),
               metrics=['accuracy'])
@@ -76,6 +90,11 @@ score = model.evaluate(x_test, y_test, verbose=0)
 print('Model has been trained.')
 print('Test loss:', score[0])
 print('Test accuracy:', score[1])
+
+
+e2 = cv2.getTickCount()
+time0 = (e2 - e1) / cv2.getTickFrequency()
+print('\n ***** Total time elapsed:',time0, ' *****')
 
 # Predict on detection-1.jpg
 detection1 = './detection-images/detection-1.jpg'
@@ -95,4 +114,11 @@ for pred in predictions1:
             value_list1.append(helpers.num_to_char(i))
         i += 1
 
-print('Predicted values on', detection1, Counter(value_list1))
+predictCount = Counter(value_list1)
+print('\nPrediction result', predictCount)
+
+print('\nResults in Probability\n')
+for k, v in predictCount.items():
+	print(k, ':', v/len(predictions1))
+
+print('\nMost Predicted Character is', max(value_list1,key=value_list1.count))

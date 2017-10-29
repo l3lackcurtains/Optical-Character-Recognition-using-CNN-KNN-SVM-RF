@@ -1,5 +1,5 @@
 from collections import Counter
-
+import cv2
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import accuracy_score, confusion_matrix
 from matplotlib import style
@@ -22,8 +22,9 @@ x_train /= 255
 x_test /= 255
 
 print('\nKNN Classifier with n_neighbors = 5, algorithm = auto, n_jobs = 10')
-
-clf = KNeighborsClassifier(n_neighbors=5,algorithm='auto',n_jobs=10)
+print('\n***** Recording time *****')
+e1 = cv2.getTickCount()
+clf = KNeighborsClassifier(n_neighbors=5,algorithm='ball_tree',n_jobs=10)
 clf.fit(x_train,y_train)
 
 print('\nCalculating Accuracy of trained Classifier...')
@@ -40,16 +41,25 @@ print('\nClassifier Accuracy: ',acc)
 print('\nPredicted Values: ',y_pred)
 print('\nAccuracy: ',accuracy)
 
+e2 = cv2.getTickCount()
+time0 = (e2 - e1) / cv2.getTickFrequency()
+print('\n ***** Total time elapsed:',time0, ' *****')
 
 detection2 = './detection-images/detection-1.jpg'
 samples2 = detector.sliding_window(detection2)
 samples_tf2 = samples2.astype('float32')
-print('Start detection on example image: ', detection2)
+print('\nStart detection on example image: ', detection2)
 predictions2 = clf.predict(samples_tf2)
 value_list2 = []
 
 for pred2 in predictions2:
 	value_list2.append(helpers.num_to_char(pred2))
-    
 
-print('Predicted values on', detection2, Counter(value_list2))
+predictCount = Counter(value_list2)
+print('\nPrediction result', predictCount)
+
+print('\nResults in Probability\n')
+for k, v in predictCount.items():
+	print(k, ':', v/len(predictions2))
+
+print('\nMost Predicted Character is', max(value_list2,key=value_list2.count))

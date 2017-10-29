@@ -2,7 +2,7 @@ from collections import Counter
 from sklearn import model_selection, svm, preprocessing
 from sklearn.metrics import accuracy_score,confusion_matrix
 from sklearn.model_selection import train_test_split
-
+import cv2
 import helpers
 import image_detection as detector
 
@@ -22,6 +22,9 @@ x_test /= 255
 # Pickle the Classifier for Future Use
 print('\nSVM Classifier with gamma = 0.1; Kernel = polynomial')
 
+print('\n***** Recording time *****')
+e1 = cv2.getTickCount()
+
 clf = svm.SVC(gamma=0.1, kernel='poly')
 clf.fit(x_train,y_train)
 
@@ -36,7 +39,11 @@ accuracy = accuracy_score(y_test, y_pred)
 
 print('\nClassifier Accuracy: ',acc)
 print('\nPredicted Values: ',y_pred)
-print('\nAccuracy of Classifier on Validation Images: ',accuracy)
+print('\nAccuracy: ',accuracy)
+
+e2 = cv2.getTickCount()
+time0 = (e2 - e1) / cv2.getTickFrequency()
+print('\n ***** Total time elapsed:',time0, ' *****')
 
 detection2 = './detection-images/detection-1.jpg'
 samples2 = detector.sliding_window(detection2)
@@ -48,5 +55,11 @@ value_list2 = []
 for pred2 in predictions2:
 	value_list2.append(helpers.num_to_char(pred2))
     
+predictCount = Counter(value_list2)
+print('\nPrediction result', predictCount)
 
-print('Predicted values on', detection2, Counter(value_list2))
+print('\nResults in Probability\n')
+for k, v in predictCount.items():
+	print(k, ':', v/len(predictions2))
+
+print('\nMost Predicted Character is', max(value_list2,key=value_list2.count))
