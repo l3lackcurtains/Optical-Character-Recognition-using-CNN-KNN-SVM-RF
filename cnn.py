@@ -9,6 +9,10 @@ from sklearn.model_selection import train_test_split
 import cv2
 import helpers
 import image_detection as detector
+from sklearn.metrics import confusion_matrix
+import numpy as np
+import matplotlib.pyplot as plt
+import pylab as pl
 
 batch_size = 64
 num_classes = 26
@@ -97,7 +101,7 @@ time0 = (e2 - e1) / cv2.getTickFrequency()
 print('\n ***** Total time elapsed:',time0, ' *****')
 
 # Predict on detection-1.jpg
-detection1 = './detection-images/detection-1.jpg'
+detection1 = './detection-images/detection-5.jpg'
 samples1 = detector.sliding_window(detection1)
 
 samples_tf1 = samples1.reshape(samples1.shape[0], 20, 20, 1)

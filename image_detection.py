@@ -17,16 +17,15 @@ def sliding_window(path):
         for elem in it:
             result = result[1:] + (elem,)
             yield result
-
     slides = []
 
     # Removes images that only have white pixels.
     for w in window(img_arr, 400):
         count_white = w.count(255)
         if count_white < 400:
-            slides.append(np.array(w))
+            value = tuple(wi/255 for wi in w)
+            slides.append(np.array(value))
 
     slide_array = np.array(slides)
-
     return slide_array
 
