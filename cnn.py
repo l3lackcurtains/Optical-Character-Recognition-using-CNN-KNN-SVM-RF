@@ -16,7 +16,7 @@ import pylab as pl
 
 batch_size = 64
 num_classes = 26
-epochs = 10
+epochs = 30
 img_rows, img_cols = 20, 20
 
 print('Start loading data.')
@@ -101,7 +101,7 @@ time0 = (e2 - e1) / cv2.getTickFrequency()
 print('\n ***** Total time elapsed:',time0, ' *****')
 
 # Predict on detection-1.jpg
-detection1 = './detection-images/detection-5.jpg'
+detection1 = './detection-images/detection-1.jpg'
 samples1 = detector.sliding_window(detection1)
 
 samples_tf1 = samples1.reshape(samples1.shape[0], 20, 20, 1)
