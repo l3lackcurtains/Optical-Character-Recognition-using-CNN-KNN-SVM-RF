@@ -16,7 +16,7 @@ import pylab as pl
 
 batch_size = 64
 num_classes = 26
-epochs = 2
+epochs = 10
 img_rows, img_cols = 20, 20
 
 print('Start loading data.')
@@ -125,4 +125,17 @@ print('\nResults in Probability\n')
 for k, v in predictCount.items():
 	print(k, ':', v/len(predictions1))
 
-print('\nMost Predicted Character is', max(value_list1,key=value_list1.count))
+out = max(value_list1,key=value_list1.count)
+print('\nMost Predicted Character is', out)
+
+resImg = ''
+if out == 'e':
+	resImg = './detection-images/detection-5.jpg'
+if out == 'a':
+	resImg = './detection-images/detection-4.jpg'
+
+if resImg:
+	img = cv2.imread(resImg,0)
+	cv2.imshow("Detected Image", img)
+	cv2.waitKey(0)
+	cv2.destroyAllWindows()

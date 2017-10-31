@@ -78,5 +78,18 @@ for pred2 in predictions2:
 	value_list2.append(helpers.num_to_char(pred2))
     
 
-print('Predicted values on', detection2, Counter(value_list2))
+out = max(value_list2,key=value_list2.count)
+print('\nMost Predicted Character is', out)
+
+resImg = ''
+if out == 'e':
+	resImg = './detection-images/detection-5.jpg'
+if out == 'a':
+	resImg = './detection-images/detection-4.jpg'
+
+if resImg:
+	img = cv2.imread(resImg,0)
+	cv2.imshow("Detected Image", img)
+	cv2.waitKey(0)
+	cv2.destroyAllWindows()
 
