@@ -1,5 +1,4 @@
 from collections import Counter
-
 import keras
 from keras import backend as K
 from keras.layers import Conv2D, MaxPooling2D
@@ -94,7 +93,6 @@ score = model.evaluate(x_test, y_test, verbose=0)
 print('Model has been trained.')
 print('Test loss:', score[0])
 print('Test accuracy:', score[1])
-
 
 e2 = cv2.getTickCount()
 time0 = (e2 - e1) / cv2.getTickFrequency()
