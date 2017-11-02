@@ -1,10 +1,3 @@
-from collections import Counter
-import keras
-from keras import backend as K
-from keras.layers import Conv2D, MaxPooling2D
-from keras.layers import Dense, Dropout, Flatten
-from keras.models import Sequential
-from sklearn.model_selection import train_test_split
 import cv2
 import helpers
 import image_detection as detector
@@ -12,6 +5,13 @@ from sklearn.metrics import confusion_matrix
 import numpy as np
 import matplotlib.pyplot as plt
 import pylab as pl
+from collections import Counter
+import keras
+from keras import backend as K
+from keras.layers import Conv2D, MaxPooling2D
+from keras.layers import Dense, Dropout, Flatten
+from keras.models import Sequential
+from sklearn.model_selection import train_test_split
 
 batch_size = 64
 num_classes = 26

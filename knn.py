@@ -1,3 +1,8 @@
+import numpy as np
+import matplotlib.pyplot as plt
+import pylab as pl
+import helpers
+import image_detection as detector
 from collections import Counter
 import cv2
 from sklearn.neighbors import KNeighborsClassifier
@@ -5,11 +10,6 @@ from sklearn.metrics import accuracy_score, confusion_matrix
 from matplotlib import style
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import confusion_matrix
-import numpy as np
-import matplotlib.pyplot as plt
-import pylab as pl
-import helpers
-import image_detection as detector
 
 print('Start loading data.')
 files, labels = helpers.load_chars74k_data()

@@ -1,14 +1,14 @@
-from collections import Counter
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.metrics import accuracy_score
-from sklearn.model_selection import train_test_split
-from sklearn.metrics import confusion_matrix
 import numpy as np
 import matplotlib.pyplot as plt
 import pylab as pl
 import helpers
 import image_detection as detector
 import cv2
+from collections import Counter
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import confusion_matrix
 
 estimators = 2000
 features = 50
