@@ -122,18 +122,25 @@ print('\nPrediction result', predictCount)
 print('\nResults in Probability\n')
 for k, v in predictCount.items():
 	print(k, ':', v/len(predictions1))
+	resImg = ''
 
-out = max(value_list1,key=value_list1.count)
+	if k == 't':
+		resImg = './detection-images/t.jpg'
+		img = cv2.imread(resImg,0)
+		cv2.imshow("Detected Image, T", img)
+
+	if k == 'e':
+		resImg = './detection-images/e.jpg'
+		img = cv2.imread(resImg,0)
+		cv2.imshow("Detected Image, E", img)
+
+	if k == 's':
+		resImg = './detection-images/s.jpg'
+		img = cv2.imread(resImg,0)
+		cv2.imshow("Detected Image, S", img)
+
+cv2.waitKey(0)
+cv2.destroyAllWindows()
+
+out = max(value_list2,key=value_list2.count)
 print('\nMost Predicted Character is', out)
-
-resImg = ''
-if out == 'e':
-	resImg = './detection-images/detection-5.jpg'
-if out == 'a':
-	resImg = './detection-images/detection-4.jpg'
-
-if resImg:
-	img = cv2.imread(resImg,0)
-	cv2.imshow("Detected Image", img)
-	cv2.waitKey(0)
-	cv2.destroyAllWindows()
