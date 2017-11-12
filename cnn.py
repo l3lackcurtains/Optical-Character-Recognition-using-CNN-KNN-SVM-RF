@@ -99,29 +99,29 @@ time0 = (e2 - e1) / cv2.getTickFrequency()
 print('\n ***** Total time elapsed:',time0, ' *****')
 
 # Predict on detection-1.jpg
-detection1 = './detection-images/detection-1.jpg'
-samples1 = detector.sliding_window(detection1)
+detection2 = './detection-images/detection-2.jpg'
+samples2 = detector.sliding_window(detection2)
 
-samples_tf1 = samples1.reshape(samples1.shape[0], 20, 20, 1)
-samples_tf1 = samples_tf1.astype('float32')
+samples_tf2 = samples2.reshape(samples2.shape[0], 20, 20, 1)
+samples_tf2 = samples_tf2.astype('float32')
 
-print('Start detection example image: ', detection1)
-predictions1 = model.predict(samples_tf1)
-value_list1 = []
+print('Start detection example image: ', detection2)
+predictions2 = model.predict(samples_tf2)
+value_list2 = []
 
-for pred in predictions1:
+for pred in predictions2:
     i = 0
     for value in pred:
         if value > 0.9:
-            value_list1.append(helpers.num_to_char(i))
+            value_list2.append(helpers.num_to_char(i))
         i += 1
 
-predictCount = Counter(value_list1)
+predictCount = Counter(value_list2)
 print('\nPrediction result', predictCount)
 
 print('\nResults in Probability\n')
 for k, v in predictCount.items():
-	print(k, ':', v/len(predictions1))
+	print(k.upper(), ':', v/len(predictions2))
 	resImg = ''
 
 	if k == 't':
@@ -138,6 +138,21 @@ for k, v in predictCount.items():
 		resImg = './detection-images/s.jpg'
 		img = cv2.imread(resImg,0)
 		cv2.imshow("Detected Image, S", img)
+
+	if k == 'x':
+		resImg = './detection-images/x.jpg'
+		img = cv2.imread(resImg,0)
+		cv2.imshow("Detected Image, X", img)
+
+	if k == 'y':
+		resImg = './detection-images/y.jpg'
+		img = cv2.imread(resImg,0)
+		cv2.imshow("Detected Image, Y", img)
+
+	if k == 'z':
+		resImg = './detection-images/z.jpg'
+		img = cv2.imread(resImg,0)
+		cv2.imshow("Detected Image, Z", img)
 
 cv2.waitKey(0)
 cv2.destroyAllWindows()

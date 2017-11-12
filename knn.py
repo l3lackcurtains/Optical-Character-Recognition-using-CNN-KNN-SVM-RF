@@ -61,7 +61,7 @@ pl.xlabel('Predicted')
 pl.ylabel('True')
 pl.show()
 
-detection2 = './detection-images/detection-1.jpg'
+detection2 = './detection-images/detection-2.jpg'
 samples2 = detector.sliding_window(detection2)
 samples_tf2 = samples2.astype('float32')
 print('\nStart detection on example image: ', detection2)
@@ -76,7 +76,7 @@ print('\nPrediction result', predictCount)
 
 print('\nResults in Probability\n')
 for k, v in predictCount.items():
-	print(k, ':', v/len(predictions2))
+	print(k.upper(), ':', v/len(predictions2))
 	resImg = ''
 
 	if k == 't':
@@ -93,6 +93,21 @@ for k, v in predictCount.items():
 		resImg = './detection-images/s.jpg'
 		img = cv2.imread(resImg,0)
 		cv2.imshow("Detected Image, S", img)
+
+	if k == 'x':
+		resImg = './detection-images/x.jpg'
+		img = cv2.imread(resImg,0)
+		cv2.imshow("Detected Image, X", img)
+
+	if k == 'y':
+		resImg = './detection-images/y.jpg'
+		img = cv2.imread(resImg,0)
+		cv2.imshow("Detected Image, Y", img)
+
+	if k == 'z':
+		resImg = './detection-images/z.jpg'
+		img = cv2.imread(resImg,0)
+		cv2.imshow("Detected Image, Z", img)
 
 cv2.waitKey(0)
 cv2.destroyAllWindows()
