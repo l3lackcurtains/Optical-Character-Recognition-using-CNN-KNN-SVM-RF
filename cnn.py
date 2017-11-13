@@ -99,7 +99,7 @@ time0 = (e2 - e1) / cv2.getTickFrequency()
 print('\n ***** Total time elapsed:',time0, ' *****')
 
 # Predict on detection-1.jpg
-detection2 = './detection-images/detection-2.jpg'
+detection2 = './detection-images/detection-1.jpg'
 samples2 = detector.sliding_window(detection2)
 
 samples_tf2 = samples2.reshape(samples2.shape[0], 20, 20, 1)
