@@ -10,12 +10,14 @@ from sklearn.metrics import accuracy_score,confusion_matrix
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import confusion_matrix
 
+detection2 = './detection-images/sss.png'
+
 print('Start loading data.')
 files, labels = helpers.load_chars74k_data()
 X, y = helpers.create_dataset(files, labels)
 print('Data has been loaded.')
 
-x_train, x_test, y_train, y_test = train_test_split(X, y, random_state=2, train_size=0.8)
+x_train, x_test, y_train, y_test = train_test_split(X, y, random_state=2, train_size=0.9)
 
 # Normalizing images.
 x_train = x_train.astype('float32')
@@ -42,7 +44,6 @@ print('\nCalculating Accuracy of Predictions...')
 accuracy = accuracy_score(y_test, y_pred)
 
 print('\nClassifier Accuracy: ',acc)
-print('\nPredicted Values: ',y_pred)
 print('\nAccuracy: ',accuracy)
 
 e2 = cv2.getTickCount()
@@ -63,12 +64,15 @@ pl.xlabel('Predicted')
 pl.ylabel('True')
 pl.show()
 
-detection2 = './detection-images/detection-1.jpg'
 samples2 = detector.sliding_window(detection2)
 samples_tf2 = samples2.astype('float32')
-print('Start detection on example image: ', detection2)
+print('\nStart detection on example image: ', detection2)
 predictions2 = clf.predict(samples_tf2)
 value_list2 = []
+
+print('*****************************************************')
+print('Overall Prediction', predictions2)
+print('*****************************************************')
 
 for pred2 in predictions2:
 	value_list2.append(helpers.num_to_char(pred2))
@@ -79,40 +83,6 @@ print('\nPrediction result', predictCount)
 print('\nResults in Probability\n')
 for k, v in predictCount.items():
 	print(k.upper(), ':', v/len(predictions2))
-	resImg = ''
-
-	if k == 't':
-		resImg = './detection-images/t.jpg'
-		img = cv2.imread(resImg,0)
-		cv2.imshow("Detected Image, T", img)
-
-	if k == 'e':
-		resImg = './detection-images/e.jpg'
-		img = cv2.imread(resImg,0)
-		cv2.imshow("Detected Image, E", img)
-
-	if k == 's':
-		resImg = './detection-images/s.jpg'
-		img = cv2.imread(resImg,0)
-		cv2.imshow("Detected Image, S", img)
-
-	if k == 'x':
-		resImg = './detection-images/x.jpg'
-		img = cv2.imread(resImg,0)
-		cv2.imshow("Detected Image, X", img)
-
-	if k == 'y':
-		resImg = './detection-images/y.jpg'
-		img = cv2.imread(resImg,0)
-		cv2.imshow("Detected Image, Y", img)
-
-	if k == 'z':
-		resImg = './detection-images/z.jpg'
-		img = cv2.imread(resImg,0)
-		cv2.imshow("Detected Image, Z", img)
-
-cv2.waitKey(0)
-cv2.destroyAllWindows()
 
 out = max(value_list2,key=value_list2.count)
 print('\nMost Predicted Character is', out)

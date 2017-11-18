@@ -1,6 +1,7 @@
 import cv2
 import helpers
 import image_detection as detector
+from keras import metrics
 from sklearn.metrics import confusion_matrix
 import numpy as np
 import matplotlib.pyplot as plt
@@ -15,15 +16,17 @@ from sklearn.model_selection import train_test_split
 
 batch_size = 64
 num_classes = 26
-epochs = 30
-img_rows, img_cols = 20, 20
+epochs = 40
+img_rows, img_cols = 40, 30
+detection2 = './detection-images/sss.png'
+detection_label = 'S'
 
 print('Start loading data.')
 files, labels = helpers.load_chars74k_data()
 X, y = helpers.create_dataset(files, labels)
 print('Data has been loaded.')
 
-x_train, x_test, y_train, y_test = train_test_split(X, y, random_state=2, train_size=0.8)
+x_train, x_test, y_train, y_test = train_test_split(X, y, random_state=2, train_size=0.9)
 
 if K.image_data_format() == 'channels_first':
     x_train = x_train.reshape(x_train.shape[0], 1, img_rows, img_cols)
@@ -90,72 +93,42 @@ model.fit_generator(train_generator,
 
 # Calculate loss and accuracy.
 score = model.evaluate(x_test, y_test, verbose=0)
+print('*****************************************************')
 print('Model has been trained.')
 print('Test loss:', score[0])
 print('Test accuracy:', score[1])
+print('*****************************************************')
 
 e2 = cv2.getTickCount()
 time0 = (e2 - e1) / cv2.getTickFrequency()
 print('\n ***** Total time elapsed:',time0, ' *****')
 
-# Predict on detection-1.jpg
-detection2 = './detection-images/detection-1.jpg'
+# Prediction
 samples2 = detector.sliding_window(detection2)
-
-samples_tf2 = samples2.reshape(samples2.shape[0], 20, 20, 1)
+samples_tf2 = samples2.reshape(samples2.shape[0], 40, 30, 1)
 samples_tf2 = samples_tf2.astype('float32')
 
 print('Start detection example image: ', detection2)
 predictions2 = model.predict(samples_tf2)
-value_list2 = []
+detection_num = helpers.char_to_num(detection_label)
 
+print('*****************************************************')
+print('Overall Prediction', predictions2)
+print('-----------------------------------------------------')
+print('Accuracy for character', detection_label, ' is ', predictions2[0][detection_num]*100 , '%')
+print('*****************************************************')
+
+
+value_list2 = []
 for pred in predictions2:
     i = 0
     for value in pred:
-        if value > 0.9:
+        if value > 0.5:
             value_list2.append(helpers.num_to_char(i))
         i += 1
 
 predictCount = Counter(value_list2)
 print('\nPrediction result', predictCount)
-
 print('\nResults in Probability\n')
 for k, v in predictCount.items():
 	print(k.upper(), ':', v/len(predictions2))
-	resImg = ''
-
-	if k == 't':
-		resImg = './detection-images/t.jpg'
-		img = cv2.imread(resImg,0)
-		cv2.imshow("Detected Image, T", img)
-
-	if k == 'e':
-		resImg = './detection-images/e.jpg'
-		img = cv2.imread(resImg,0)
-		cv2.imshow("Detected Image, E", img)
-
-	if k == 's':
-		resImg = './detection-images/s.jpg'
-		img = cv2.imread(resImg,0)
-		cv2.imshow("Detected Image, S", img)
-
-	if k == 'x':
-		resImg = './detection-images/x.jpg'
-		img = cv2.imread(resImg,0)
-		cv2.imshow("Detected Image, X", img)
-
-	if k == 'y':
-		resImg = './detection-images/y.jpg'
-		img = cv2.imread(resImg,0)
-		cv2.imshow("Detected Image, Y", img)
-
-	if k == 'z':
-		resImg = './detection-images/z.jpg'
-		img = cv2.imread(resImg,0)
-		cv2.imshow("Detected Image, Z", img)
-
-cv2.waitKey(0)
-cv2.destroyAllWindows()
-
-out = max(value_list2,key=value_list2.count)
-print('\nMost Predicted Character is', out)
