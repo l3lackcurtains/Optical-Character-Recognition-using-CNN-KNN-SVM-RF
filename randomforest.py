@@ -51,7 +51,6 @@ e2 = cv2.getTickCount()
 time0 = (e2 - e1) / cv2.getTickFrequency()
 print('\n ***** Total time elapsed:',time0, ' *****')
 
-
 # Compute and plot confusion matrix
 cm = confusion_matrix(y_test, y_pred)
 np.set_printoptions(precision=2)
