@@ -26,7 +26,6 @@ def num_to_char(num):
 def load_chars74k_data(dir="hnd"):
     filenames = []
     label_list = []
-
     for path, dirs, files in os.walk(dir):
         for file in files:
             if file.endswith('.png'):
@@ -41,7 +40,6 @@ def load_chars74k_data(dir="hnd"):
 def create_dataset(file_paths, label_set, with_denoising=False):
     data_x = []
     data_y = []
-
     for path in file_paths:
         img = cv2.imread(path,0)
         small = cv2.resize(img, (40, 30))
@@ -51,11 +49,9 @@ def create_dataset(file_paths, label_set, with_denoising=False):
         if with_denoising:
             single_x = cv2.fastNlMeansDenoising(single_x).flatten()
         data_x.append(single_x)
-
     for l in label_set:
         l_to_num = char_to_num(l)
         data_y.append(l_to_num)
-
     np_data_x = np.array(data_x)
     np_data_y = np.array(data_y)
     return np_data_x, np_data_y
@@ -66,10 +62,7 @@ def create_datagenerator(x_train, x_test, y_train, y_test):
         rescale= 1. / 255,
         rotation_range= 0. / 180,
         vertical_flip=True)
-
     test_datagen = ImageDataGenerator(rescale=1. / 255)
-
     train_generator = train_datagen.flow(x=x_train, y=y_train)
     validation_generator = test_datagen.flow(x=x_test, y=y_test)
-
     return train_generator, validation_generator
